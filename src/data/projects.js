@@ -1,0 +1,38 @@
+export const projects = [
+    {
+        title:       "Customer Churn Predictor",
+        description: "End-to-end ML pipeline predicting telecom customer churn with 94% accuracy using XGBoost and SHAP explainability.",
+        tags:        ["Python", "XGBoost", "SHAP", "Pandas", "Scikit-Learn"],
+        github:      "https://github.com",
+        kaggle:      "https://kaggle.com",
+        demo:        null,
+        featured:    true,
+    },
+    {
+        title:       "Real-time Sales Dashboard",
+        description: "Interactive React dashboard visualising real-time sales KPIs with Chart.js and REST API integration.",
+        tags:        ["React", "Chart.js", "FastAPI", "PostgreSQL"],
+        github:      "https://github.com",
+        kaggle:      null,
+        demo:        "https://example.com",
+        featured:    true,
+    },
+    {
+        title:       "NLP Sentiment Analyser",
+        description: "Fine-tuned BERT model for multi-class sentiment analysis on 500k+ Twitter dataset. Deployed via HuggingFace Spaces.",
+        tags:        ["Python", "PyTorch", "BERT", "HuggingFace", "Streamlit"],
+        github:      "https://github.com",
+        kaggle:      "https://kaggle.com",
+        demo:        "https://example.com",
+        featured:    false,
+    },
+    {
+        title:       "Portfolio Website",
+        description: "This portfolio — built with React, Tailwind CSS, and Framer Motion. Dark glassmorphism design.",
+        tags:        ["React", "Tailwind CSS", "Framer Motion", "Vite"],
+        github:      "https://github.com",
+        kaggle:      null,
+        demo:        null,
+        featured:    false,
+    },
+];

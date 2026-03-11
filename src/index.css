@@ -1,0 +1,82 @@
+@import "tailwindcss";
+
+@layer base {
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+        scroll-snap-type: y mandatory;
+        overflow-y: scroll;
+        scroll-behavior: smooth;
+    }
+
+    body {
+        background-color: #0a0a0a;
+        color: #ffffff;
+        font-family: "JetBrains Mono", "SF Mono", "Fira Code", monospace;
+        -webkit-font-smoothing: antialiased;
+        overflow-x: hidden;
+    }
+
+    ::-webkit-scrollbar { width: 3px; }
+    ::-webkit-scrollbar-track { background: #0a0a0a; }
+    ::-webkit-scrollbar-thumb { background: #333333; }
+
+    section {
+        scroll-snap-align: start;
+        scroll-snap-stop: always;
+        min-height: 100vh;
+        width: 100%;
+        position: relative;
+        overflow: hidden;
+    }
+}
+
+@layer utilities {
+    .sharp-border {
+        border: 1px solid #222222;
+    }
+    .sharp-border-white {
+        border: 1px solid #ffffff;
+    }
+    .sharp-border-top {
+        border-top: 1px solid #222222;
+    }
+    .sharp-border-bottom {
+        border-bottom: 1px solid #222222;
+    }
+    .label-text {
+        font-size: 0.8rem;
+        font-weight: 700;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: #666666;
+        font-family: "SF Mono", "Fira Code", "JetBrains Mono", monospace;
+    }
+    .section-inner {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    .ticker-track {
+        display: flex;
+        gap: 4rem;
+        animation: ticker 20s linear infinite;
+        white-space: nowrap;
+    }
+    @keyframes ticker {
+        from { transform: translateX(0); }
+        to   { transform: translateX(-50%); }
+    }
+    .line-accent {
+        display: inline-block;
+        width: 2rem;
+        height: 1px;
+        background: #ffffff;
+        vertical-align: middle;
+        margin-right: 0.75rem;
+    }
+}
