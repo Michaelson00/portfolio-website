@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useSpring } from "framer-motion";
 
 const NAV_LINKS = [
     { href: "#about",      label: "About"      },
@@ -13,6 +13,14 @@ const NAV_LINKS = [
 export default function Navbar() {
     const [menuOpen, setMenuOpen] = useState(false);
     const [active,   setActive]   = useState("");
+    
+    // Scroll Progress
+    const { scrollYProgress } = useScroll();
+    const scaleX = useSpring(scrollYProgress, {
+        stiffness: 100,
+        damping: 30,
+        restDelta: 0.001
+    });
 
     useEffect(() => {
         const observer = new IntersectionObserver(
@@ -29,60 +37,96 @@ export default function Navbar() {
     return (
         <header style={{
             position: "fixed", top: 0, left: 0, right: 0, zIndex: 100,
-            borderBottom: "1px solid #1a1a1a",
-            background: "rgba(10,10,10,0.95)",
-            backdropFilter: "blur(10px)",
+            borderBottom: "1px solid var(--border-color)",
+            background: "rgba(10,10,10,0.8)", 
+            backdropFilter: "blur(12px)",
+            backgroundColor: "var(--bg-secondary)", 
         }}>
+            {/* Scroll Progress Bar */}
+            <motion.div
+                style={{
+                    position: "absolute", top: 0, left: 0, right: 0, height: "2px",
+                    background: "var(--text-primary)", transformOrigin: "0%", scaleX
+                }}
+            />
+
+            {/* Override background for theme support */}
+            <div style={{
+                position: "absolute", inset: 0, opacity: 0.95,
+                background: "var(--bg-primary)", zIndex: -1
+            }} />
+
             <div style={{
                 maxWidth: "1200px", margin: "0 auto", padding: "0 2rem",
-                height: "56px", display: "flex", alignItems: "center", justifyContent: "space-between",
+                height: "64px", display: "flex", alignItems: "center", justifyContent: "space-between",
+                position: "relative",
             }}>
 
                 {/* Logo */}
                 <a href="#hero" style={{ textDecoration: "none" }}>
-          <span style={{ fontSize: "0.75rem", fontWeight: "700", letterSpacing: "0.2em", textTransform: "uppercase", color: "#ffffff" }}>
-            KKA<span style={{ color: "#555555" }}>.DEV</span>
+          <span style={{ fontSize: "0.875rem", fontWeight: "800", letterSpacing: "0.15em", textTransform: "uppercase", color: "var(--text-primary)", fontFamily: "var(--font-mono)" }}>
+            KKA<span style={{ color: "var(--text-secondary)" }}>.DEV</span>
           </span>
                 </a>
 
                 {/* Desktop nav */}
-                <nav style={{ display: "flex", gap: "0.25rem", alignItems: "center" }}>
+                <nav style={{ display: "flex", gap: "0.5rem", alignItems: "center" }}>
                     {NAV_LINKS.map(({ href, label }) => {
                         const id     = href.replace("#", "");
                         const isActive = active === id;
                         return (
-                            <a key={href} href={href} style={{
-                                padding: "0.375rem 0.875rem",
-                                fontSize: "0.6875rem",
-                                fontWeight: "700",
-                                letterSpacing: "0.15em",
-                                textTransform: "uppercase",
-                                textDecoration: "none",
-                                color: isActive ? "#ffffff" : "#555555",
-                                borderBottom: isActive ? "1px solid #ffffff" : "1px solid transparent",
-                                transition: "all 0.2s",
-                            }}>
+                            <motion.a
+                                key={href}
+                                href={href}
+                                whileHover={{ scale: 1.05, color: "var(--text-primary)" }}
+                                whileTap={{ scale: 0.95 }}
+                                style={{
+                                    padding: "0.5rem 1rem",
+                                    fontSize: "0.75rem",
+                                    fontWeight: "600",
+                                    letterSpacing: "0.05em",
+                                    textTransform: "uppercase",
+                                    textDecoration: "none",
+                                    color: isActive ? "var(--text-primary)" : "var(--text-secondary)",
+                                    opacity: isActive ? 1 : 0.7,
+                                    cursor: "pointer",
+                                    fontFamily: "var(--font-mono)"
+                                }}
+                            >
                                 {label}
-                            </a>
+                                {isActive && (
+                                    <motion.div
+                                        layoutId="underline"
+                                        style={{ height: "1px", background: "var(--text-primary)", marginTop: "2px" }}
+                                    />
+                                )}
+                            </motion.a>
                         );
                     })}
-                </nav>
 
-                {/* CTA */}
-                <a href="#contact" style={{
-                    padding: "0.5rem 1.25rem",
-                    fontSize: "0.6875rem",
-                    fontWeight: "700",
-                    letterSpacing: "0.15em",
-                    textTransform: "uppercase",
-                    textDecoration: "none",
-                    color: "#000000",
-                    background: "#ffffff",
-                    border: "1px solid #ffffff",
-                    transition: "all 0.2s",
-                }}>
-                    Hire Me
-                </a>
+                    {/* CTA */}
+                    <motion.a
+                        href="#contact"
+                        whileHover={{ scale: 1.05, y: -2, boxShadow: "0 5px 15px rgba(0,0,0,0.1)" }}
+                        whileTap={{ scale: 0.95 }}
+                        style={{
+                            padding: "0.6rem 1.5rem",
+                            fontSize: "0.75rem",
+                            fontWeight: "700",
+                            letterSpacing: "0.1em",
+                            textTransform: "uppercase",
+                            textDecoration: "none",
+                            color: "var(--bg-primary)",
+                            background: "var(--text-primary)",
+                            border: "1px solid var(--text-primary)",
+                            marginLeft: "1rem",
+                            cursor: "pointer",
+                            fontFamily: "var(--font-mono)"
+                        }}
+                    >
+                        Hire Me
+                    </motion.a>
+                </nav>
             </div>
 
             {/* Mobile menu */}
@@ -92,15 +136,16 @@ export default function Navbar() {
                         initial={{ opacity: 0, height: 0 }}
                         animate={{ opacity: 1, height: "auto" }}
                         exit={{   opacity: 0, height: 0 }}
-                        style={{ borderTop: "1px solid #1a1a1a", background: "#0a0a0a", overflow: "hidden" }}
+                        style={{ borderTop: "1px solid var(--border-color)", background: "var(--bg-primary)", overflow: "hidden" }}
                     >
                         {NAV_LINKS.map(({ href, label }) => (
                             <a key={href} href={href} onClick={() => setMenuOpen(false)} style={{
-                                display: "block", padding: "1rem 2rem",
-                                fontSize: "0.75rem", fontWeight: "700",
-                                letterSpacing: "0.2em", textTransform: "uppercase",
-                                color: "#666666", textDecoration: "none",
-                                borderBottom: "1px solid #1a1a1a",
+                                display: "block", padding: "1.5rem 2rem",
+                                fontSize: "0.875rem", fontWeight: "700",
+                                letterSpacing: "0.1em", textTransform: "uppercase",
+                                color: "var(--text-primary)", textDecoration: "none",
+                                borderBottom: "1px solid var(--border-color)",
+                                fontFamily: "var(--font-mono)"
                             }}>
                                 {label}
                             </a>

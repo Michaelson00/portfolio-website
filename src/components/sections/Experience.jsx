@@ -1,19 +1,44 @@
 import { motion } from "framer-motion";
 import { timeline } from "../../data/experience";
+import { GraduationCapIcon, ScrollIcon, BriefcaseIcon, BrainIcon } from "../ui/Icons";
 
 const typeStyles = {
-    education:     { color: "#ffffff", bg: "#1a1a1a" },
-    certification: { color: "#aaaaaa", bg: "#141414" },
-    experience:    { color: "#ffffff", bg: "#1a1a1a" },
+    education:     { color: "var(--text-primary)", bg: "var(--bg-secondary)" },
+    certification: { color: "var(--text-secondary)", bg: "var(--bg-tertiary)" },
+    experience:    { color: "var(--text-primary)", bg: "var(--bg-secondary)" },
+};
+
+// Helper to get icon based on type
+const getIcon = (type) => {
+    switch (type) {
+        case "education": return <GraduationCapIcon />;
+        case "certification": return <ScrollIcon />;
+        case "experience": return <BriefcaseIcon />;
+        default: return <BrainIcon />;
+    }
 };
 
 export default function Experience() {
     return (
-        <section id="experience" style={{ background: "#0a0a0a", borderTop: "1px solid #1a1a1a" }}>
+        <section id="experience" style={{ background: "var(--bg-primary)", borderTop: "1px solid var(--border-color)" }}>
+            
+            {/* Background Image: Connected Nodes / Networking */}
+            <motion.div
+                style={{
+                    position: "absolute", inset: 0, zIndex: 0,
+                    backgroundImage: `url(https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=2070&auto=format&fit=crop)`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                }}
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 0.05 }}
+                viewport={{ once: true }}
+                transition={{ duration: 1.5 }}
+            />
 
             {/* Grid overlay */}
             <div style={{
-                position: "absolute", inset: 0, pointerEvents: "none",
+                position: "absolute", inset: 0, pointerEvents: "none", zIndex: 0,
                 backgroundImage: `
           linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
           linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px)
@@ -39,7 +64,7 @@ export default function Experience() {
                 <div style={{
                     display: "flex", justifyContent: "space-between",
                     alignItems: "flex-end", marginBottom: "3rem",
-                    paddingBottom: "1.5rem", borderBottom: "1px solid #1a1a1a",
+                    paddingBottom: "1.5rem", borderBottom: "1px solid var(--border-color)",
                 }}>
                     <motion.h2
                         initial={{ opacity: 0, y: 20 }}
@@ -50,10 +75,11 @@ export default function Experience() {
                             fontSize: "clamp(2rem, 4vw, 3rem)",
                             fontWeight: "800", lineHeight: 1.05,
                             letterSpacing: "-0.02em", textTransform: "uppercase",
+                            color: "var(--text-primary)"
                         }}
                     >
                         Journey &<br />
-                        <span style={{ color: "#333333" }}>Background.</span>
+                        <span style={{ color: "var(--text-secondary)" }}>Background.</span>
                     </motion.h2>
 
                     <motion.p
@@ -62,7 +88,7 @@ export default function Experience() {
                         viewport={{ once: true }}
                         transition={{ duration: 0.6, delay: 0.2 }}
                         style={{
-                            color: "#555555", fontSize: "0.8125rem",
+                            color: "var(--text-muted)", fontSize: "0.8125rem",
                             maxWidth: "18rem", textAlign: "right", lineHeight: 1.7,
                         }}
                     >
@@ -75,7 +101,7 @@ export default function Experience() {
 
                     {/* Left column */}
                     <div>
-                        {timeline.slice(0, 2).map(({ type, year, title, organisation, description, icon }, i) => (
+                        {timeline.slice(0, 2).map(({ type, year, title, organisation, description }, i) => (
                             <motion.div
                                 key={title}
                                 initial={{ opacity: 0, y: 20 }}
@@ -83,7 +109,7 @@ export default function Experience() {
                                 viewport={{ once: true }}
                                 transition={{ duration: 0.5, delay: i * 0.1 }}
                                 style={{
-                                    borderBottom: "1px solid #1a1a1a",
+                                    borderBottom: "1px solid var(--border-color)",
                                     paddingBottom: "2rem",
                                     marginBottom: "2rem",
                                 }}
@@ -97,16 +123,16 @@ export default function Experience() {
                                         <div style={{
                                             width: "2.25rem", height: "2.25rem",
                                             display: "flex", alignItems: "center", justifyContent: "center",
-                                            fontSize: "1rem",
-                                            border: "1px solid #222222",
+                                            fontSize: "1rem", color: typeStyles[type].color,
+                                            border: "1px solid var(--border-color)",
                                             background: typeStyles[type].bg,
                                         }}>
-                                            {icon}
+                                            {getIcon(type)}
                                         </div>
                                         <span style={{
                                             fontSize: "0.6rem", fontWeight: "700",
                                             letterSpacing: "0.15em", textTransform: "uppercase",
-                                            color: "#555555", border: "1px solid #222222",
+                                            color: "var(--text-muted)", border: "1px solid var(--border-color)",
                                             padding: "0.2rem 0.5rem",
                                         }}>
                       {type}
@@ -114,7 +140,7 @@ export default function Experience() {
                                     </div>
                                     <span style={{
                                         fontSize: "0.6875rem", fontFamily: "monospace",
-                                        color: "#444444",
+                                        color: "var(--text-secondary)",
                                     }}>
                     {year}
                   </span>
@@ -123,20 +149,21 @@ export default function Experience() {
                                 {/* Content */}
                                 <h3 style={{
                                     fontSize: "1rem", fontWeight: "700",
-                                    color: "#ffffff", marginBottom: "0.375rem",
+                                    color: "var(--text-primary)", marginBottom: "0.375rem",
                                     letterSpacing: "-0.01em",
                                 }}>
                                     {title}
-                                </h3>
+                                </h3
+>
                                 <p style={{
-                                    fontSize: "0.8125rem", color: "#888888",
+                                    fontSize: "0.8125rem", color: "var(--text-muted)",
                                     fontWeight: "600", marginBottom: "0.75rem",
                                     letterSpacing: "0.05em",
                                 }}>
                                     {organisation}
                                 </p>
                                 <p style={{
-                                    fontSize: "0.9rem", color: "#777777",
+                                    fontSize: "0.9rem", color: "var(--text-secondary)",
                                     lineHeight: 1.7,
                                 }}>
                                     {description}
@@ -147,7 +174,7 @@ export default function Experience() {
 
                     {/* Right column */}
                     <div>
-                        {timeline.slice(2).map(({ type, year, title, organisation, description, icon }, i) => (
+                        {timeline.slice(2).map(({ type, year, title, organisation, description }, i) => (
                             <motion.div
                                 key={title}
                                 initial={{ opacity: 0, y: 20 }}
@@ -155,7 +182,7 @@ export default function Experience() {
                                 viewport={{ once: true }}
                                 transition={{ duration: 0.5, delay: i * 0.1 + 0.15 }}
                                 style={{
-                                    borderBottom: "1px solid #1a1a1a",
+                                    borderBottom: "1px solid var(--border-color)",
                                     paddingBottom: "2rem",
                                     marginBottom: "2rem",
                                 }}
@@ -169,16 +196,16 @@ export default function Experience() {
                                         <div style={{
                                             width: "2.25rem", height: "2.25rem",
                                             display: "flex", alignItems: "center", justifyContent: "center",
-                                            fontSize: "1rem",
-                                            border: "1px solid #222222",
+                                            fontSize: "1rem", color: typeStyles[type].color,
+                                            border: "1px solid var(--border-color)",
                                             background: typeStyles[type].bg,
                                         }}>
-                                            {icon}
+                                            {getIcon(type)}
                                         </div>
                                         <span style={{
                                             fontSize: "0.6rem", fontWeight: "700",
                                             letterSpacing: "0.15em", textTransform: "uppercase",
-                                            color: "#555555", border: "1px solid #222222",
+                                            color: "var(--text-muted)", border: "1px solid var(--border-color)",
                                             padding: "0.2rem 0.5rem",
                                         }}>
                       {type}
@@ -186,7 +213,7 @@ export default function Experience() {
                                     </div>
                                     <span style={{
                                         fontSize: "0.6875rem", fontFamily: "monospace",
-                                        color: "#444444",
+                                        color: "var(--text-secondary)",
                                     }}>
                     {year}
                   </span>
@@ -195,20 +222,20 @@ export default function Experience() {
                                 {/* Content */}
                                 <h3 style={{
                                     fontSize: "1rem", fontWeight: "700",
-                                    color: "#ffffff", marginBottom: "0.375rem",
+                                    color: "var(--text-primary)", marginBottom: "0.375rem",
                                     letterSpacing: "-0.01em",
                                 }}>
                                     {title}
                                 </h3>
                                 <p style={{
-                                    fontSize: "0.8125rem", color: "#888888",
+                                    fontSize: "0.8125rem", color: "var(--text-muted)",
                                     fontWeight: "600", marginBottom: "0.75rem",
                                     letterSpacing: "0.05em",
                                 }}>
                                     {organisation}
                                 </p>
                                 <p style={{
-                                    fontSize: "0.9rem", color: "#777777",
+                                    fontSize: "0.9rem", color: "var(--text-secondary)",
                                     lineHeight: 1.7,
                                 }}>
                                     {description}

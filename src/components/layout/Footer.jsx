@@ -11,10 +11,11 @@ const socials = [
 export default function Footer() {
     return (
         <footer style={{
-            borderTop: "1px solid rgba(255,255,255,0.08)",
+            borderTop: "1px solid var(--border-color)",
             paddingTop: "2.5rem",
             paddingBottom: "2.5rem",
             marginTop: "2.5rem",
+            background: "var(--bg-primary)",
         }}>
             <div style={{
                 maxWidth: "72rem",
@@ -26,26 +27,26 @@ export default function Footer() {
                 justifyContent: "space-between",
                 gap: "1.5rem",
                 fontSize: "0.875rem",
-                color: "rgba(255,255,255,0.3)",
+                color: "var(--text-muted)",
             }}>
                 <p className="gradient-text"
-                   style={{ fontWeight: "700", fontSize: "1rem", letterSpacing: "0.1em", textTransform: "uppercase" }}>
-                    YourName<span style={{ color: "rgba(255,255,255,0.3)" }}>.dev</span>
+                   style={{ fontWeight: "700", fontSize: "1rem", letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--text-primary)" }}>
+                    KKA<span style={{ color: "var(--text-secondary)" }}>.dev</span>
                 </p>
 
                 <div style={{ display: "flex", alignItems: "center", gap: "1.25rem" }}>
                     {socials.map(({ href, icon, label }) => (
                         <motion.a key={label} href={href} target="_blank" rel="noreferrer"
-                                  whileHover={{ y: -2 }}
+                                  whileHover={{ y: -2, color: "var(--text-primary)" }}
                                   aria-label={label}
-                                  style={{ color: "rgba(255,255,255,0.4)", textDecoration: "none" }}
+                                  style={{ color: "var(--text-muted)", textDecoration: "none", transition: "color 0.2s" }}
                         >
                             {icon}
                         </motion.a>
                     ))}
                 </div>
 
-                <p>&copy; {new Date().getFullYear()} YourName. All rights reserved.</p>
+                <p style={{ color: "var(--text-muted)" }}>&copy; {new Date().getFullYear()} Kelvin Kwabena Apau. All rights reserved.</p>
             </div>
         </footer>
     );

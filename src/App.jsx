@@ -10,7 +10,8 @@ import Contact    from "./components/sections/Contact";
 
 export default function App() {
     return (
-        <div style={{ background: "#0a0a0a", color: "#ffffff", overflowX: "hidden" }}>
+        <div style={{ background: "var(--bg-primary)", color: "var(--text-primary)", overflowX: "hidden" }}>
+            <div className="noise-overlay" />
             <Navbar />
             <Hero />
             <About />

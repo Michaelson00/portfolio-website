@@ -1,7 +1,9 @@
+// Storing icon names as strings to avoid JSX in a .js file.
+
 export const skillCategories = [
     {
         category: "Languages",
-        icon: "💻",
+        icon: "CodeIcon",
         skills: [
             { name: "Python",     level: 90 },
             { name: "JavaScript", level: 78 },
@@ -11,7 +13,7 @@ export const skillCategories = [
     },
     {
         category: "Frameworks",
-        icon: "⚙️",
+        icon: "SettingsIcon",
         skills: [
             { name: "React",      level: 80 },
             { name: "TensorFlow", level: 72 },
@@ -21,7 +23,7 @@ export const skillCategories = [
     },
     {
         category: "Data & ML",
-        icon: "📊",
+        icon: "ChartIcon",
         skills: [
             { name: "Pandas",        level: 88 },
             { name: "Scikit-Learn",  level: 85 },
@@ -31,7 +33,7 @@ export const skillCategories = [
     },
     {
         category: "Tools",
-        icon: "🛠",
+        icon: "WrenchIcon",
         skills: [
             { name: "Git / GitHub", level: 85 },
             { name: "Docker",       level: 60 },

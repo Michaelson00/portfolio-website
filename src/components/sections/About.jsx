@@ -1,4 +1,6 @@
 import { motion } from "framer-motion";
+import { GraduationCapIcon, BrainIcon, ScrollIcon, BriefcaseIcon } from "../ui/Icons";
+import { useState, useEffect } from "react";
 
 const STATS = [
     { value: "21+",  label: "Projects Completed" },
@@ -8,12 +10,35 @@ const STATS = [
 ];
 
 export default function About() {
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const checkMobile = () => setIsMobile(window.innerWidth < 768);
+        checkMobile();
+        window.addEventListener("resize", checkMobile);
+        return () => window.removeEventListener("resize", checkMobile);
+    }, []);
+
     return (
-        <section id="about" style={{ background: "#0a0a0a", borderTop: "1px solid #1a1a1a" }}>
+        <section id="about" style={{ background: "var(--bg-primary)", borderTop: "1px solid var(--border-color)" }}>
+            
+            {/* Background Image: Data Center / Infrastructure */}
+            <motion.div
+                style={{
+                    position: "absolute", inset: 0, zIndex: 0,
+                    backgroundImage: `url(https://images.unsplash.com/photo-1558494949-ef526b0042a0?q=80&w=2070&auto=format&fit=crop)`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                }}
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 0.05 }} // Subtle opacity
+                viewport={{ once: true }}
+                transition={{ duration: 1.5 }}
+            />
 
             {/* Grid overlay */}
             <div style={{
-                position: "absolute", inset: 0, pointerEvents: "none",
+                position: "absolute", inset: 0, pointerEvents: "none", zIndex: 0,
                 backgroundImage: `
           linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
           linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px)
@@ -36,9 +61,14 @@ export default function About() {
                 </motion.div>
 
                 {/* Two column layout */}
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "6rem", alignItems: "start" }}>
+                <div style={{
+                    display: "grid",
+                    gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr",
+                    gap: "4rem",
+                    alignItems: "start"
+                }}>
 
-                    {/* Left — big statement */}
+                    {/* Left — big statement + Image */}
                     <motion.div
                         initial={{ opacity: 0, x: -30 }}
                         whileInView={{ opacity: 1, x: 0 }}
@@ -52,22 +82,36 @@ export default function About() {
                             letterSpacing: "-0.02em",
                             textTransform: "uppercase",
                             marginBottom: "2rem",
-                        }}>
+                            color: "var(--text-primary)"
+                        }}
+                        >
                             Turning Raw<br />
-                            <span style={{ color: "#444444" }}>Data Into</span><br />
+                            <span style={{ color: "var(--text-secondary)" }}>Data Into</span><br />
                             Meaningful<br />
-                            <span style={{ WebkitTextStroke: "1px #ffffff", color: "transparent" }}>
+                            <span style={{ WebkitTextStroke: "1px var(--text-primary)", color: "transparent" }}>
                 Intelligence.
               </span>
                         </h2>
 
+                        <img
+                            src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop"
+                            alt="Data Visualization"
+                            style={{
+                                width: "100%", borderRadius: "8px", marginBottom: "2rem",
+                                filter: "grayscale(100%)", transition: "filter 0.3s",
+                                border: "1px solid var(--border-color)"
+                            }}
+                            onMouseEnter={(e) => e.target.style.filter = "grayscale(0%)"}
+                            onMouseLeave={(e) => e.target.style.filter = "grayscale(100%)"}
+                        />
+
                         <a href="/cv.pdf" download style={{
                             display: "inline-flex", alignItems: "center", gap: "0.5rem",
                             padding: "0.75rem 1.5rem",
-                            background: "transparent", color: "#ffffff",
+                            background: "transparent", color: "var(--text-primary)",
                             fontSize: "0.6875rem", fontWeight: "700",
                             letterSpacing: "0.2em", textTransform: "uppercase",
-                            textDecoration: "none", border: "1px solid #333333",
+                            textDecoration: "none", border: "1px solid var(--border-color)",
                             transition: "all 0.2s",
                         }}>
                             Download CV →
@@ -83,18 +127,19 @@ export default function About() {
                         style={{ display: "flex", flexDirection: "column", gap: "2.5rem" }}
                     >
                         {/* Bio */}
-                        <div style={{ borderLeft: "1px solid #222222", paddingLeft: "1.5rem" }}>
+                        <div style={{ borderLeft: "1px solid var(--border-color)", paddingLeft: "1.5rem" }}>
                             <p style={{
-                                color: "#aaaaaa", lineHeight: 1.8,
+                                color: "var(--text-secondary)", lineHeight: 1.8,
                                 fontSize: "1rem", marginBottom: "1rem",
                             }}>
-                                I'm a <span style={{ color: "#ffffff", fontWeight: "600" }}>Data Scientist & Web Designer</span> based
+                                I'm a <span style={{ color: "var(--text-primary)", fontWeight: "600" }}>Data Scientist & Web Designer</span> based
                                 in Accra, Ghana. I specialise in machine learning, data visualisation,
                                 and building full-stack applications that are both intelligent and elegant.
                             </p>
-                            <p style={{ color: "#777777", lineHeight: 1.8, fontSize: "0.9375rem" }}>
+                            <p style={{ color: "var(--text-muted)", lineHeight: 1.8, fontSize: "0.9375rem" }}>
                                 When I'm not training models or designing systems, I'm competing on Kaggle,
-                                contributing to open source, or exploring the latest AI research. ☕
+                                contributing to open source, or exploring the latest AI research.
+                                <BrainIcon style={{ display: "inline", marginLeft: "0.5rem", width: "1rem" }}/>
                             </p>
                         </div>
 
@@ -109,19 +154,19 @@ export default function About() {
                                 <div key={label} style={{
                                     display: "flex", justifyContent: "space-between",
                                     alignItems: "center", padding: "0.875rem 0",
-                                    borderBottom: "1px solid #1a1a1a",
+                                    borderBottom: "1px solid var(--border-color)",
                                 }}>
                                     <span className="label-text">{label}</span>
-                                    <span style={{ fontSize: "0.9375rem", color: "#ffffff", fontWeight: "500" }}>{value}</span>
+                                    <span style={{ fontSize: "0.9375rem", color: "var(--text-primary)", fontWeight: "500" }}>{value}</span>
                                 </div>
                             ))}
                         </div>
 
                         {/* Stats */}
-                        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1px", background: "#1a1a1a", border: "1px solid #1a1a1a" }}>
+                        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1px", background: "var(--border-color)", border: "1px solid var(--border-color)" }}>
                             {STATS.map(({ value, label }) => (
-                                <div key={label} style={{ background: "#0a0a0a", padding: "1.25rem" }}>
-                                    <p style={{ fontSize: "1.75rem", fontWeight: "800", color: "#ffffff", letterSpacing: "-0.02em" }}>
+                                <div key={label} style={{ background: "var(--bg-primary)", padding: "1.25rem" }}>
+                                    <p style={{ fontSize: "1.75rem", fontWeight: "800", color: "var(--text-primary)", letterSpacing: "-0.02em" }}>
                                         {value}
                                     </p>
                                     <p className="label-text" style={{ marginTop: "0.25rem" }}>{label}</p>
