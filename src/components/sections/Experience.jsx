@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { timeline } from "../../data/experience";
 import { GraduationCapIcon, ScrollIcon, BriefcaseIcon, BrainIcon } from "../ui/Icons";
+import { useState, useEffect } from "react";
 
 const typeStyles = {
     education:     { color: "var(--text-primary)", bg: "var(--bg-secondary)" },
@@ -19,6 +20,15 @@ const getIcon = (type) => {
 };
 
 export default function Experience() {
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const checkMobile = () => setIsMobile(window.innerWidth < 768);
+        checkMobile();
+        window.addEventListener("resize", checkMobile);
+        return () => window.removeEventListener("resize", checkMobile);
+    }, []);
+
     return (
         <section id="experience" style={{ background: "var(--bg-primary)", borderTop: "1px solid var(--border-color)" }}>
             
@@ -65,6 +75,7 @@ export default function Experience() {
                     display: "flex", justifyContent: "space-between",
                     alignItems: "flex-end", marginBottom: "3rem",
                     paddingBottom: "1.5rem", borderBottom: "1px solid var(--border-color)",
+                    flexWrap: "wrap", gap: "1rem"
                 }}>
                     <motion.h2
                         initial={{ opacity: 0, y: 20 }}
@@ -89,7 +100,7 @@ export default function Experience() {
                         transition={{ duration: 0.6, delay: 0.2 }}
                         style={{
                             color: "var(--text-muted)", fontSize: "0.8125rem",
-                            maxWidth: "18rem", textAlign: "right", lineHeight: 1.7,
+                            maxWidth: "18rem", textAlign: isMobile ? "left" : "right", lineHeight: 1.7,
                         }}
                     >
                         My path through academia, certifications, and real-world industry experience.
@@ -97,7 +108,11 @@ export default function Experience() {
                 </div>
 
                 {/* Two column layout */}
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "4rem" }}>
+                <div style={{
+                    display: "grid",
+                    gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr",
+                    gap: "4rem",
+                }}>
 
                     {/* Left column */}
                     <div>
@@ -153,8 +168,7 @@ export default function Experience() {
                                     letterSpacing: "-0.01em",
                                 }}>
                                     {title}
-                                </h3
->
+                                </h3>
                                 <p style={{
                                     fontSize: "0.8125rem", color: "var(--text-muted)",
                                     fontWeight: "600", marginBottom: "0.75rem",

@@ -6,6 +6,7 @@ import {
 } from "chart.js";
 import { Radar, Bar, Doughnut } from "react-chartjs-2";
 import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
 
 ChartJS.register(
     RadialLinearScale, PointElement, LineElement, Filler,
@@ -56,6 +57,7 @@ const radarData = {
 
 const radarOptions = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: { legend: { display: false } },
     scales: {
         r: {
@@ -81,6 +83,7 @@ const barData = {
 
 const barOptions = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: { legend: { display: false } },
     scales: {
         x: { grid: { color: chartColors.grid }, ticks: { color: chartColors.tick, font: { family: FONT_FAMILY, size: 10 } } },
@@ -101,6 +104,7 @@ const doughnutData = {
 
 const doughnutOptions = {
     responsive: true,
+    maintainAspectRatio: false,
     cutout: "70%",
     plugins: {
         legend: {
@@ -111,6 +115,15 @@ const doughnutOptions = {
 };
 
 export default function Charts() {
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const checkMobile = () => setIsMobile(window.innerWidth < 768);
+        checkMobile();
+        window.addEventListener("resize", checkMobile);
+        return () => window.removeEventListener("resize", checkMobile);
+    }, []);
+
     return (
         <section id="charts" style={{ background: "var(--bg-primary)", borderTop: "1px solid var(--border-color)" }}>
             
@@ -156,6 +169,7 @@ export default function Charts() {
                 <div style={{
                     display: "flex", justifyContent: "space-between", alignItems: "flex-end",
                     marginBottom: "3rem", paddingBottom: "1.5rem", borderBottom: "1px solid var(--border-color)",
+                    flexWrap: "wrap", gap: "2rem"
                 }}>
                     <motion.h2
                         initial={{ opacity: 0, y: 20 }}
@@ -174,7 +188,7 @@ export default function Charts() {
                     </motion.h2>
 
                     {/* Stat strip */}
-                    <div style={{ display: "flex", gap: "0" }}>
+                    <div style={{ display: "flex", gap: "0", flexWrap: "wrap" }}>
                         {STATS.map(({ value, label }, i) => (
                             <motion.div
                                 key={label}
@@ -186,6 +200,8 @@ export default function Charts() {
                                     padding: "0 2rem",
                                     borderLeft: "1px solid var(--border-color)",
                                     textAlign: "center",
+                                    marginBottom: isMobile ? "1rem" : "0",
+                                    flex: isMobile ? "1 0 45%" : "auto" // Responsive flex
                                 }}
                             >
                                 <p style={{
@@ -203,9 +219,9 @@ export default function Charts() {
                 {/* Charts grid */}
                 <div style={{
                     display: "grid",
-                    gridTemplateColumns: "1fr 1fr 1fr",
-                    gap: "0",
-                    border: "1px solid var(--border-color)",
+                    gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr 1fr",
+                    gap: isMobile ? "2rem" : "0",
+                    border: isMobile ? "none" : "1px solid var(--border-color)",
                 }}>
                     {/* Radar */}
                     <motion.div
@@ -213,7 +229,12 @@ export default function Charts() {
                         whileInView={{ opacity: 1, scale: 1 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.6, delay: 0.1 }}
-                        style={{ padding: "2rem", borderRight: "1px solid var(--border-color)" }}
+                        style={{ 
+                            padding: "2rem", 
+                            borderRight: !isMobile ? "1px solid var(--border-color)" : "none",
+                            border: isMobile ? "1px solid var(--border-color)" : "",
+                            height: "300px" // Fixed height for charts container
+                        }}
                     >
                         <p className="label-text" style={{ marginBottom: "1.5rem" }}>Skill Radar</p>
                         <Radar data={radarData} options={radarOptions} />
@@ -225,7 +246,12 @@ export default function Charts() {
                         whileInView={{ opacity: 1, scale: 1 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.6, delay: 0.2 }}
-                        style={{ padding: "2rem", borderRight: "1px solid var(--border-color)" }}
+                        style={{ 
+                            padding: "2rem", 
+                            borderRight: !isMobile ? "1px solid var(--border-color)" : "none",
+                            border: isMobile ? "1px solid var(--border-color)" : "",
+                            height: "300px"
+                        }}
                     >
                         <p className="label-text" style={{ marginBottom: "1.5rem" }}>Projects / Year</p>
                         <Bar data={barData} options={barOptions} />
@@ -237,7 +263,11 @@ export default function Charts() {
                         whileInView={{ opacity: 1, scale: 1 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.6, delay: 0.3 }}
-                        style={{ padding: "2rem" }}
+                        style={{ 
+                            padding: "2rem",
+                            border: isMobile ? "1px solid var(--border-color)" : "",
+                            height: "300px"
+                        }}
                     >
                         <p className="label-text" style={{ marginBottom: "1.5rem" }}>Tech Stack Split</p>
                         <Doughnut data={doughnutData} options={doughnutOptions} />
