@@ -230,14 +230,18 @@ export default function Charts() {
                         viewport={{ once: true }}
                         transition={{ duration: 0.6, delay: 0.1 }}
                         style={{ 
-                            padding: "2rem", 
+                            padding: "1.5rem", 
                             borderRight: !isMobile ? "1px solid var(--border-color)" : "none",
                             border: isMobile ? "1px solid var(--border-color)" : "",
-                            height: "300px" // Fixed height for charts container
+                            height: "400px", // Increased height
+                            display: "flex",
+                            flexDirection: "column"
                         }}
                     >
-                        <p className="label-text" style={{ marginBottom: "1.5rem" }}>Skill Radar</p>
-                        <Radar data={radarData} options={radarOptions} />
+                        <p className="label-text" style={{ marginBottom: "1rem" }}>Skill Radar</p>
+                        <div style={{ flex: 1, position: "relative", minHeight: 0 }}>
+                            <Radar data={radarData} options={radarOptions} />
+                        </div>
                     </motion.div>
 
                     {/* Bar */}
@@ -247,14 +251,18 @@ export default function Charts() {
                         viewport={{ once: true }}
                         transition={{ duration: 0.6, delay: 0.2 }}
                         style={{ 
-                            padding: "2rem", 
+                            padding: "1.5rem", 
                             borderRight: !isMobile ? "1px solid var(--border-color)" : "none",
                             border: isMobile ? "1px solid var(--border-color)" : "",
-                            height: "300px"
+                            height: "400px", // Increased height
+                            display: "flex",
+                            flexDirection: "column"
                         }}
                     >
-                        <p className="label-text" style={{ marginBottom: "1.5rem" }}>Projects / Year</p>
-                        <Bar data={barData} options={barOptions} />
+                        <p className="label-text" style={{ marginBottom: "1rem" }}>Projects / Year</p>
+                        <div style={{ flex: 1, position: "relative", minHeight: 0 }}>
+                            <Bar data={barData} options={barOptions} />
+                        </div>
                     </motion.div>
 
                     {/* Doughnut */}
@@ -264,13 +272,17 @@ export default function Charts() {
                         viewport={{ once: true }}
                         transition={{ duration: 0.6, delay: 0.3 }}
                         style={{ 
-                            padding: "2rem",
+                            padding: "1.5rem",
                             border: isMobile ? "1px solid var(--border-color)" : "",
-                            height: "300px"
+                            height: "400px", // Increased height
+                            display: "flex",
+                            flexDirection: "column"
                         }}
                     >
-                        <p className="label-text" style={{ marginBottom: "1.5rem" }}>Tech Stack Split</p>
-                        <Doughnut data={doughnutData} options={doughnutOptions} />
+                        <p className="label-text" style={{ marginBottom: "1rem" }}>Tech Stack Split</p>
+                        <div style={{ flex: 1, position: "relative", minHeight: 0 }}>
+                            <Doughnut data={doughnutData} options={doughnutOptions} />
+                        </div>
                     </motion.div>
                 </div>
             </div>
